@@ -1,8 +1,10 @@
+"use client";
 import Link from "next/link"
 import {LinkIcon} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {Button} from "@/components/ui/button";
+import {loginUser} from "@/lib/controllers/auth";
 
 export default function Login() {
     return (
@@ -22,22 +24,22 @@ export default function Login() {
                                 <p className="text-muted-foreground">Enter your email and password to access your
                                     account.</p>
                             </div>
-                            <div className="space-y-4">
+                            <form action={loginUser} className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="email">Email</Label>
-                                    <Input id="email" type="email" placeholder="m@example.com" required/>
+                                    <Input id="email" type="email" name='email' placeholder="m@example.com" required/>
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="password">Password</Label>
-                                    <Input id="password" type="password" required placeholder='Password'/>
+                                    <Input id="password" type="password" name='password' required placeholder='Password'/>
                                 </div>
                                 <Button type="submit" className="w-full">
                                     Login
                                 </Button>
-                            </div>
+                            </form>
                             <div className="mt-4 text-center text-sm">
                                 Don&apos;t have an account?{" "}
-                                <Link href="#" className="underline" prefetch={false}>
+                                <Link href="/sign-up" className="underline">
                                     Sign up
                                 </Link>
                             </div>
@@ -48,10 +50,10 @@ export default function Login() {
             <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
                 <p className="text-xs text-muted-foreground">&copy; 2024 LinkHub. All rights reserved.</p>
                 <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-                    <Link href="#" className="text-xs hover:underline underline-offset-4" prefetch={false}>
+                    <Link href="#" className="text-xs hover:underline underline-offset-4">
                         Terms of Service
                     </Link>
-                    <Link href="#" className="text-xs hover:underline underline-offset-4" prefetch={false}>
+                    <Link href="#" className="text-xs hover:underline underline-offset-4">
                         Privacy
                     </Link>
                 </nav>

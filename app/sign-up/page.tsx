@@ -3,6 +3,7 @@ import {LinkIcon} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {Button} from "@/components/ui/button";
+import {registerUser} from "@/lib/controllers/auth";
 
 export default function SignUp() {
     return (
@@ -21,26 +22,26 @@ export default function SignUp() {
                                 <h1 className="text-3xl font-bold">Sign Up for LinkHub</h1>
                                 <p className="text-muted-foreground">Enter your details to create an account.</p>
                             </div>
-                            <div className="space-y-4">
+                            <form action={registerUser} className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="username">Username</Label>
-                                    <Input id="username" placeholder="JohnDoe123" required />
+                                    <Input id="username" name='username' placeholder="JohnDoe123" required />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="email">Email</Label>
-                                    <Input id="email" type="email" placeholder="m@example.com" required />
+                                    <Input id="email" type="email" name='email' placeholder="m@example.com" required />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="password">Password</Label>
-                                    <Input id="password" type="password" required placeholder='Password'/>
+                                    <Input id="password" type="password" name='password' required placeholder='Password'/>
                                 </div>
                                 <Button type="submit" className="w-full">
                                     Sign Up
                                 </Button>
-                            </div>
+                            </form>
                             <div className="mt-4 text-center text-sm">
                                 Already have an account?{" "}
-                                <Link href="#" className="underline" prefetch={false}>
+                                <Link href="/login" className="underline">
                                     Login
                                 </Link>
                             </div>
