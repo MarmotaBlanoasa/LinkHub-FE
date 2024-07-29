@@ -5,8 +5,14 @@ import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {Button} from "@/components/ui/button";
 import {loginUser} from "@/lib/controllers/auth";
+import {useState} from "react";
 
 export default function Login() {
+    const [error, setError] = useState<string>();
+    const handleSubmit = async (e: FormData) => {
+        const response = await loginUser(e);
+        setError(response);
+    }
     return (
         <div className="flex flex-col min-h-[100dvh]">
             <header className="px-4 lg:px-6 h-14 flex items-center">
@@ -24,7 +30,7 @@ export default function Login() {
                                 <p className="text-muted-foreground">Enter your email and password to access your
                                     account.</p>
                             </div>
-                            <form action={loginUser} className="space-y-4">
+                            <form action={async (e)=> await handleSubmit(e)} className="space-y-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="email">Email</Label>
                                     <Input id="email" type="email" name='email' placeholder="m@example.com" required/>
@@ -33,6 +39,7 @@ export default function Login() {
                                     <Label htmlFor="password">Password</Label>
                                     <Input id="password" type="password" name='password' required placeholder='Password'/>
                                 </div>
+                                {error && <p className="text-red-500">{error}</p>}
                                 <Button type="submit" className="w-full">
                                     Login
                                 </Button>

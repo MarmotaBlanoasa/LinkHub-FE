@@ -2,6 +2,8 @@
 import Link from "next/link";
 import {LinkIcon} from "lucide-react";
 import {usePathname} from "next/navigation";
+import {Button} from "@/components/ui/button";
+import {logoutUser} from "@/lib/controllers/auth";
 
 interface NavigationProps {
     routes: {
@@ -9,9 +11,10 @@ interface NavigationProps {
         href: string;
     }[];
     homeLink: string;
+    isAuthenticated?: boolean;
 }
 
-export default function Navigation({routes, homeLink}: NavigationProps) {
+export default function Navigation({routes, homeLink, isAuthenticated}: NavigationProps) {
     const path = usePathname();
     console.log(path)
     return (
@@ -23,8 +26,18 @@ export default function Navigation({routes, homeLink}: NavigationProps) {
             <nav className="ml-auto flex gap-4 sm:gap-6">
                 {routes.map((route) => (
                     <Link key={route.href} href={route.href}
-                          className={`text-sm font-medium hover:underline underline-offset-4 ${route.href == path && "underline"}`} prefetch={false}>
+                          className={`text-sm pt-1 font-medium hover:underline underline-offset-4 ${route.href == path && "underline"}`}
+                          prefetch={false}>
                         {route.name}</Link>))
+                }
+                {
+                    isAuthenticated &&
+                    <form action={logoutUser}>
+                        <Button variant='link' size='sm'
+                                className='h-auto px-0 text-sm font-medium hover:underline underline-offset-4'>
+                            Logout
+                        </Button>
+                    </form>
                 }
             </nav>
         </header>

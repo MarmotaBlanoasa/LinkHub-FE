@@ -1,11 +1,11 @@
 'use server';
-import {NextResponse} from "next/server";
 import {redirect} from "next/navigation";
 import {cookies} from "next/headers";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
-export async function fetchWithAuth(url:string, options: any = {}) {
+export async function fetchWithAuth(url: string, options: any = {}) {
     const token = cookies().get('jwt')?.value;
     const headers = {
         ...options.headers,
@@ -44,7 +44,7 @@ export async function registerUser(formData: FormData) {
     } catch (e) {
         console.error(e);
     }
-    return NextResponse.redirect("/login");
+    return redirect("/login");
 }
 
 export async function loginUser(formData: FormData) {
@@ -64,7 +64,7 @@ export async function loginUser(formData: FormData) {
             return "Invalid email or password";
         }
         const {jwt} = data;
-        cookies().set("jwt", jwt);
+        cookies().set({name: "jwt", value: jwt, maxAge: 60 * 60 * 24, path: "/", httpOnly: true});
     } catch (e) {
         console.error(e);
     }
@@ -73,18 +73,9 @@ export async function loginUser(formData: FormData) {
 
 export async function logoutUser() {
     try {
-        const response = await fetch(`${API_URL}/logout`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "include",
-        });
-        const data = await response.json();
-        console.log('Logout response:', data);
-        if (!response.ok) {
-            console.log('Error logging out');
-            return data;
+        const response = await fetchWithAuth(`${API_URL}/logout`, {method: "POST"});
+        if (response.ok) {
+            cookies().delete("jwt");
         }
     } catch (e) {
         console.error(e);
