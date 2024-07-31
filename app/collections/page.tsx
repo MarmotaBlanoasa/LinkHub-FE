@@ -3,10 +3,11 @@ import {getUser} from "@/lib/controllers/auth";
 import CollectionFolder from "@/components/CollectionFolder";
 import CreateCollection from "@/components/CreateCollection";
 import {getCollections} from "@/lib/controllers/collections";
+import {ICollection} from "@/lib/types";
 
 export default async function Collections() {
     const user = await getUser() as { userName: string, email: string };
-    const collections = await getCollections() as any || []
+    const collections = await getCollections() as { collections: ICollection[] } || []
     console.log(collections)
     return (
         <>
@@ -21,9 +22,10 @@ export default async function Collections() {
                             </div>
                             <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                                 <CreateCollection/>
-                                {collections.collections.map((collection: any, index: number) => (
+                                {collections?.collections?.map((collection: ICollection, index: number) => (
                                     <CollectionFolder key={index} name={collection.collectionName}
-                                                      linkCount={0}
+                                                      collectionId={collection.collectionId}
+                                                      linkCount={collection.linkCount}
                                                       type='folder'/>
                                 ))}
                             </div>

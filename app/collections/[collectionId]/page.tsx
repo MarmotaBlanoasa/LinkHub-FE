@@ -1,10 +1,18 @@
-import { Card, CardContent } from "@/components/ui/card";
-import Link from "next/link";
+'use server';
+import {Card, CardContent} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {ShareIcon} from "lucide-react";
 import {Input} from "@/components/ui/input";
+import {getCollection} from "@/lib/controllers/collections";
+import {ICollection, ILink} from "@/lib/types";
+import LinkForm from "@/components/LinkForm";
+import LinkComponent from "@/components/LinkComponent";
+import {getLinksByCollection} from "@/lib/controllers/links";
 
-export default function CollectionId({params} : {params: {collectionId: string}}){
+export default async function CollectionId({params}: { params: { collectionId: string } }) {
+    const collectionDetails = await getCollection(parseInt(params.collectionId)) as ICollection;
+    const links = await getLinksByCollection(parseInt(params.collectionId)) as ILink[];
+    console.log(links);
     return (
         <>
             <main className="flex-1">
@@ -12,8 +20,8 @@ export default function CollectionId({params} : {params: {collectionId: string}}
                     <div className="container grid items-center justify-center gap-4 px-4 md:px-6">
                         <div className="grid gap-8 w-full">
                             <div className="space-y-2 text-center">
-                                <h1 className="text-3xl font-bold">Work Links</h1>
-                                <p className="text-muted-foreground">Your collection of work-related links.</p>
+                                <h1 className="text-3xl font-bold">{collectionDetails.collectionName}</h1>
+                                <p className="text-muted-foreground">{collectionDetails.collectionDescription}</p>
                                 <div className="flex items-center justify-center gap-4">
                                     <Input type="search" placeholder="Search links..." className="w-full max-w-md"/>
                                     <Button variant="outline">
@@ -25,68 +33,10 @@ export default function CollectionId({params} : {params: {collectionId: string}}
                             <div className="grid gap-4">
                                 <Card>
                                     <CardContent className="p-6">
-                                        <div className="grid gap-2">
-                                            <Link
-                                                href="#"
-                                                className="flex items-center justify-between gap-4 hover:bg-muted/50 rounded-md p-3 transition-colors"
-                                                prefetch={false}
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    <div className="text-lg font-medium">Vercel</div>
-                                                </div>
-                                                <div className="text-muted-foreground text-sm">https://vercel.com</div>
-                                            </Link>
-                                            <Link
-                                                href="#"
-                                                className="flex items-center justify-between gap-4 hover:bg-muted/50 rounded-md p-3 transition-colors"
-                                                prefetch={false}
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    <div className="text-lg font-medium">Tailwind CSS</div>
-                                                </div>
-                                                <div className="text-muted-foreground text-sm">https://tailwindcss.com
-                                                </div>
-                                            </Link>
-                                            <Link
-                                                href="#"
-                                                className="flex items-center justify-between gap-4 hover:bg-muted/50 rounded-md p-3 transition-colors"
-                                                prefetch={false}
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    <div className="text-lg font-medium">Shadcn UI</div>
-                                                </div>
-                                                <div className="text-muted-foreground text-sm">https://ui.shadcn.com
-                                                </div>
-                                            </Link>
-                                            <Link
-                                                href="#"
-                                                className="flex items-center justify-between gap-4 hover:bg-muted/50 rounded-md p-3 transition-colors"
-                                                prefetch={false}
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    <div
-                                                        className="bg-muted rounded-md w-8 h-8 flex items-center justify-center text-muted-foreground font-bold">
-                                                        R
-                                                    </div>
-                                                    <div className="text-lg font-medium">React</div>
-                                                </div>
-                                                <div className="text-muted-foreground text-sm">https://reactjs.org</div>
-                                            </Link>
-                                            <Link
-                                                href="#"
-                                                className="flex items-center justify-between gap-4 hover:bg-muted/50 rounded-md p-3 transition-colors"
-                                                prefetch={false}
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    <div
-                                                        className="bg-muted rounded-md w-8 h-8 flex items-center justify-center text-muted-foreground font-bold">
-                                                        N
-                                                    </div>
-                                                    <div className="text-lg font-medium">Next.js</div>
-                                                </div>
-                                                <div className="text-muted-foreground text-sm">https://nextjs.org</div>
-                                            </Link>
-                                        </div>
+                                        {links.map((link:ILink, index:number) => (
+                                                <LinkComponent key={index} linkId={link.linkId} title={link.title}
+                                                               url={link.url} collectionId={link.collectionId}/>))}
+                                        <LinkForm collectionId={parseInt(params.collectionId)} dialogTriggerType='addLink'/>
                                     </CardContent>
                                 </Card>
                             </div>

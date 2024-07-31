@@ -1,12 +1,13 @@
 'use server';
 import {redirect} from "next/navigation";
 import {cookies} from "next/headers";
+import {NextResponse} from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
-export async function fetchWithAuth(url: string, options: any = {}) {
-    const token = cookies().get('jwt')?.value;
+export async function fetchWithAuth(url: string, options: any = {}, tokenValue?: string) {
+    const token = tokenValue? tokenValue: cookies().get('jwt')?.value;
     const headers = {
         ...options.headers,
         'Authorization': `Bearer ${token}`,
@@ -19,6 +20,7 @@ export async function fetchWithAuth(url: string, options: any = {}) {
     if (!response.ok) {
         if (response.status === 401) {
             console.log('Unauthorized');
+            return null;
         }
     }
     return response;
@@ -74,7 +76,7 @@ export async function loginUser(formData: FormData) {
 export async function logoutUser() {
     try {
         const response = await fetchWithAuth(`${API_URL}/logout`, {method: "POST"});
-        if (response.ok) {
+        if (response?.ok) {
             cookies().delete("jwt");
         }
     } catch (e) {
@@ -86,9 +88,15 @@ export async function logoutUser() {
 export async function getUser() {
     try {
         const response = await fetchWithAuth(`${API_URL}/user`, {method: "GET"});
-        return await response.json();
+        return await response?.json();
     } catch (e) {
         console.error(e);
     }
     return redirect("/login");
+}
+
+export async function removeUserCookie() {
+    const response = NextResponse.next();
+    response.cookies.delete('jwt');
+    return response;
 }

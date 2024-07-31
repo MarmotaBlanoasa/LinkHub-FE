@@ -23,9 +23,8 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 ## TODO
-* [ ] Add a `404` page
-* [ ] Add a `500` page
 * [ ] Add a middleware to check if the user is authenticated
+* [ ] Add a login page
 * [ ] Add PWA support
 * [ ] Add the rest of the tables and functionalities
 * [ ] Add log out button in the header
