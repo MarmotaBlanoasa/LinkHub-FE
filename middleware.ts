@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
         if (!user) {
             console.log("Deleting cookie");
             const response = NextResponse.next();
-            response.cookies.delete('jwt');
+            response.cookies.set('jwt', '', {maxAge: 0});
             return response;
         }
     }

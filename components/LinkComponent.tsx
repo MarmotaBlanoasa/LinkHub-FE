@@ -5,6 +5,7 @@ import {ILink} from "@/lib/types";
 import {deleteLink} from "@/lib/controllers/links";
 import {revalidatePath} from "next/cache";
 import LinkForm from "@/components/LinkForm";
+import {deleteLinkAction} from "@/lib/actions/link-actions";
 
 export default function LinkComponent({linkId, title, url, collectionId}: ILink) {
     return (
@@ -19,19 +20,13 @@ export default function LinkComponent({linkId, title, url, collectionId}: ILink)
                 <div className="flex items-center gap-3">
                     <div className="text-lg font-medium">{title}</div>
                 </div>
-                <div className="text-muted-foreground text-sm">{url}
+                <div className="text-muted-foreground text-sm">{url.length > 50 ? url.slice(0, 50) + '...' : url}
                 </div>
             </Link>
             <div className="flex items-center gap-2">
                 <LinkForm collectionId={collectionId} dialogTriggerType='editLink'
                           defaultValues={{linkName: title, linkUrl: url}} linkId={linkId}/>
-                <form action={
-                    async () => {
-                        'use server'
-                        await deleteLink(linkId)
-                        revalidatePath(`/collections/${collectionId}`)
-                    }
-                }>
+                <form action={() =>deleteLinkAction(linkId, collectionId)}>
                     <Button variant="ghost" size="icon" type='submit'>
                         <TrashIcon className="h-4 w-4"/>
                         <span className="sr-only">Delete</span>

@@ -1,10 +1,9 @@
 import {Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle} from "@/components/ui/dialog";
-import {revalidatePath} from "next/cache";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import {createLink, updateLink} from "@/lib/controllers/links";
 import DialogTriggerContent from "@/components/DialogTriggerContent";
+import {manageLinkCreateUpdate} from "@/lib/actions/link-actions";
 
 export default function LinkForm({linkId, collectionId, dialogTriggerType, defaultValues}: {
     collectionId: number,
@@ -22,11 +21,8 @@ export default function LinkForm({linkId, collectionId, dialogTriggerType, defau
                         {!!defaultValues ? 'You can edit the information about the link' : 'Create a new link to store in your collection.'}
                     </DialogDescription>
                 </DialogHeader>
-                <form action={async (e) => {
-                    'use server'
-                    !!defaultValues ? await updateLink(linkId || 0, e): await createLink(e, collectionId)
-                    revalidatePath(`/collections/${collectionId}`)
-                }} className="space-y-4">
+                <form action={(e) => manageLinkCreateUpdate(e, collectionId, linkId, defaultValues)}
+                      className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="link-name">Link Name</Label>
                         <Input id="link-name" type="text" name='link-name' placeholder="Link Name"
