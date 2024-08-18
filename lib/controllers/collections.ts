@@ -56,3 +56,21 @@ export async function updateCollection(collectionId: number, formData: FormData)
         console.error(e);
     }
 }
+
+export async function getCollectionByToken(token: string) {
+    try {
+        const response = await fetchWithAuth(`${API_URL}/Collection/shared/${token}`, {method: "GET"});
+        return await response?.json();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+export async function getAllSharedCollections() {
+    try {
+        const response = await fetchWithAuth(`${API_URL}/Collection/shared`, {method: "GET"});
+        return await response?.json();
+    } catch (e) {
+        console.error(e);
+    }
+}

@@ -46,3 +46,12 @@ export async function updateLink(linkId: number, formData: FormData) {
         console.error(e);
     }
 }
+
+export async function getLinksByToken(token: string) {
+    try {
+        const response = await fetchWithAuth(`${API_URL}/Links/shared/${token}`, {method: "GET"});
+        return await response?.json();
+    } catch (e) {
+        console.error(e);
+    }
+}

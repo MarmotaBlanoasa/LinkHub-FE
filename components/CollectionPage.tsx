@@ -7,13 +7,15 @@ import LinkComponent from "@/components/LinkComponent";
 import LinkForm from "@/components/LinkForm";
 import {useState} from "react";
 
-export default function CollectionPage({params, collectionDetails, links}: {
+export default function CollectionPage({params, collectionDetails, links, hostname}: {
     params: { collectionId: string },
     collectionDetails: ICollection,
     links: ILink[]
+    hostname: string
 }) {
     const [search, setSearch] = useState('')
     const filteredLinks = links.filter((link: ILink) => link.title.toLowerCase().includes(search.toLowerCase()))
+    const shareLink = `${hostname}/collections/shared/${collectionDetails.token}`
     return (
         <main className="flex-1">
             <section className="w-full py-12 md:py-24 lg:py-32">
@@ -26,7 +28,7 @@ export default function CollectionPage({params, collectionDetails, links}: {
                                 <Input type="search" placeholder="Search links..." className="w-full max-w-md" value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                 />
-                                <ShareDialog/>
+                                <ShareDialog shareLink={shareLink}/>
                             </div>
                         </div>
                         <div className="grid gap-4">

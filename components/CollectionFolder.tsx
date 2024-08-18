@@ -3,15 +3,17 @@ import {IconComponent} from "@/lib/IconComponent";
 import Link from "next/link";
 
 interface CollectionFolderProps {
-    collectionId: number;
+    collectionId: number | string;
     name: string;
     linkCount: number;
     type: string;
+    shared?: boolean;
 }
 
-export default function CollectionFolder({collectionId, name, linkCount, type}: CollectionFolderProps) {
+export default function CollectionFolder({collectionId, name, linkCount, type, shared = false}: CollectionFolderProps) {
+    const link = shared ? `/collections/shared/${collectionId}` : `/collections/${collectionId}`;
     return (
-        <Link href={`collections/${collectionId}`}>
+        <Link href={link}>
             <Card className='cursor-pointer hover:bg-muted/50 transition-colors'>
                 <CardContent className="flex flex-col items-center justify-center gap-2 p-6">
                     <IconComponent name={type} className="h-8 w-8"/>
