@@ -12,9 +12,8 @@ export default async function SharedCollections() {
                     <div className="container grid items-center justify-center gap-4 px-4 md:px-6">
                         <div className="grid gap-8 w-full">
                             <div className="space-y-2 text-center">
-                                <h1 className="text-3xl font-bold">Your Shared collections</h1>
-                                <p className="text-muted-foreground">Here is the list of the collections shared by other
-                                    users.</p>
+                                <h1 className="text-3xl font-bold">Collections from Your Network</h1>
+                                <p className="text-muted-foreground">Browse through the collections that have been shared by other users.</p>
                             </div>
                             <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 
