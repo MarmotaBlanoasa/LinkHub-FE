@@ -1,13 +1,12 @@
 'use server';
 import {redirect} from "next/navigation";
 import {cookies} from "next/headers";
-import {NextResponse} from "next/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
-export async function fetchWithAuth(url: string, options: any = {}, tokenValue?: string) {
-    const token = tokenValue? tokenValue: cookies().get('jwt')?.value;
+export async function fetchWithAuth(url: string, options: any = {}) {
+    const token = cookies().get('jwt')?.value;
     const headers = {
         ...options.headers,
         'Authorization': `Bearer ${token}`,
@@ -20,12 +19,11 @@ export async function fetchWithAuth(url: string, options: any = {}, tokenValue?:
     if (!response.ok) {
         if (response.status === 401) {
             console.log('Unauthorized');
-            return null;
+            // cookies().delete('jwt');
         }
     }
     return response;
 }
-
 
 export async function registerUser(formData: FormData) {
     const username = formData.get("username");
@@ -95,8 +93,13 @@ export async function getUser() {
     return redirect("/login");
 }
 
-export async function removeUserCookie() {
-    const response = NextResponse.next();
-    response.cookies.delete('jwt');
-    return response;
+export async function isJwtValid() {
+    try {
+        const response = await fetchWithAuth(`${API_URL}/auth`, {method: "GET"});
+        return response.ok;
+    } catch (e) {
+        console.error(e);
+    }
+    return false;
 }
+

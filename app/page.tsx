@@ -13,7 +13,7 @@ export default function Home() {
         },
     ]
     return (
-        <div className="flex flex-col min-h-[100dvh]">
+        <div className="flex flex-col min-h-[100dvh] ">
             <Navigation routes={routes} homeLink="/"/>
             <main className="flex-1">
                 <section className="py-12 md:py-24 lg:py-32 overflow-hidden">

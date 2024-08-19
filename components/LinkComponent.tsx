@@ -10,12 +10,11 @@ export default function LinkComponent({linkId, title, url, collectionId, shared 
         <div className="flex items-center justify-between gap-4">
             <Link
                 href={url}
-                className="flex items-center gap-3 hover:bg-muted/50 rounded-md p-3 transition-colors w-full"
+                className="flex flex-col items-start md:items-center gap-3 hover:bg-muted/50 rounded-md p-3 transition-colors w-full md:flex-row"
                 target="_blank"
             >
-                {/*<img src="/placeholder.svg" alt="Vercel" width={32} height={32} className="rounded-md"/>*/}
-                <div className="flex items-center gap-3">
-                    <div className="text-lg font-medium">{title}</div>
+                <div className="flex gap-3">
+                    <div className="text-lg font-medium">{title.length > 25 ? title.slice(0,25) + '...' : title}</div>
                 </div>
                 <div className="text-muted-foreground text-sm">{url.length > 50 ? url.slice(0, 50) + '...' : url}
                 </div>

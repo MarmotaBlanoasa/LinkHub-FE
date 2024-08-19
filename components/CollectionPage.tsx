@@ -14,18 +14,18 @@ export default function CollectionPage({params, collectionDetails, links, hostna
     hostname: string
 }) {
     const [search, setSearch] = useState('')
-    const filteredLinks = links.filter((link: ILink) => link.title.toLowerCase().includes(search.toLowerCase()))
+    const filteredLinks = links?.filter((link: ILink) => link.title.toLowerCase().includes(search.toLowerCase()))
     const shareLink = `${hostname}/collections/shared/${collectionDetails.token}`
     return (
         <main className="flex-1">
-            <section className="w-full py-12 md:py-24 lg:py-32">
+            <section className="w-full p-12 md:py-24 lg:py-32">
                 <div className="container grid items-center justify-center gap-4 px-4 md:px-6">
-                    <div className="grid gap-8 w-full">
+                    <div className="grid gap-8">
                         <div className="space-y-2 text-center">
                             <h1 className="text-3xl font-bold">{collectionDetails.collectionName}</h1>
                             <p className="text-muted-foreground">{collectionDetails.collectionDescription}</p>
-                            <div className="flex items-center justify-center gap-4">
-                                <Input type="search" placeholder="Search links..." className="w-full max-w-md" value={search}
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                <Input type="search" placeholder="Search links..." value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                 />
                                 <ShareDialog shareLink={shareLink}/>

@@ -9,6 +9,7 @@ export default async function SharedCollectionID({params}: { params: { sharedId:
     const sharedId = params.sharedId;
     const sharedCollectionData = await getCollectionByToken(sharedId);
     const sharedCollectionLinks = await getLinksByToken(sharedId);
+    console.log(sharedCollectionData);
     return (
         <main className='flex-1'>
             <section className="w-full py-12 md:py-24 lg:py-32">
