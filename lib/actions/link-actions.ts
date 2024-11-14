@@ -7,7 +7,7 @@ export async function manageLinkCreateUpdate(e: FormData, collectionId: number, 
     linkName: string,
     linkUrl: string
 }) {
-    !!defaultValues ? await updateLink(linkId || 0, e) : await createLink(e, collectionId)
+    !!defaultValues || linkId ? await updateLink(linkId || 0, e) : await createLink(e, collectionId)
     revalidatePath(`/collections/${collectionId}`)
 }
 export async function deleteLinkAction(collectionId:number, linkId:number) {

@@ -7,8 +7,7 @@ import LinkComponent from "@/components/LinkComponent";
 import LinkForm from "@/components/LinkForm";
 import {useState} from "react";
 
-export default function CollectionPage({params, collectionDetails, links, hostname}: {
-    params: { collectionId: string },
+export default function CollectionPage({ collectionDetails, links, hostname}: {
     collectionDetails: ICollection,
     links: ILink[]
     hostname: string
@@ -37,7 +36,7 @@ export default function CollectionPage({params, collectionDetails, links, hostna
                                     {filteredLinks.map((link: ILink, index: number) => (
                                         <LinkComponent key={index} linkId={link.linkId} title={link.title}
                                                        url={link.url} collectionId={link.collectionId}/>))}
-                                    <LinkForm collectionId={parseInt(params.collectionId)} dialogTriggerType='addLink'/>
+                                    <LinkForm collectionId={collectionDetails.collectionId} dialogTriggerType='addLink'/>
                                 </CardContent>
                             </Card>
                         </div>

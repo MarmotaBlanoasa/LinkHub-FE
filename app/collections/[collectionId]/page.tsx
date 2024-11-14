@@ -10,11 +10,9 @@ export default async function CollectionId({params}: { params: { collectionId: s
     const links = await getLinksByCollection(parseInt(params.collectionId)) as ILink[];
     const headersList = headers();
     const hostname = headersList.get('x-forwarded-host') || 'localhost:3000';
-    console.log(links);
-    console.log("collectionDetails",collectionDetails);
     return (
         <>
-            <CollectionPage params={params} collectionDetails={collectionDetails} links={links} hostname={hostname}/>
+            <CollectionPage collectionDetails={collectionDetails} links={links} hostname={hostname}/>
         </>
     )
 }

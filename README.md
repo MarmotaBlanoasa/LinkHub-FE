@@ -41,8 +41,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#todo)
 
 ## ➤ TODO
-* [ ] Add a middleware to check if the user is authenticated
-* [ ] Add a login page
-* [ ] Add PWA support
-* [ ] Add the rest of the tables and functionalities
-* [ ] Add log out button in the header
+* [x] Add a middleware to check if the user is authenticated
+* [x] Add a login page
+* [x] Add PWA support
+* [x] Add the rest of the tables and functionalities
+* [x] Add log out button in the header
+* [ ] Add better security for adding and removing links
+  * [ ] Add a new field in frontend to set IsEdit 
+  * [ ] On backend check the userID if it was shared with him
