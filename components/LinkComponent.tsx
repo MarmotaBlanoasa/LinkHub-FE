@@ -16,7 +16,9 @@ export default function LinkComponent({linkId, title, url, collectionId, shared 
                 <div className="flex gap-3">
                     <div className="text-lg font-medium">{title.length > 25 && !shared ? title.slice(0,25) + '...' : title}</div>
                 </div>
-                <div className="text-muted-foreground text-sm">{url.length > 50 && !shared ? url.slice(0, 50) + '...' : url}
+                <div className="hidden md:display-block text-muted-foreground text-sm">{url.length > 50 && !shared ? url.slice(0, 25) + '...' : url}
+                </div>
+                <div className="md:hidden display-block text-muted-foreground text-sm">{url.length > 35 && !shared ? url.slice(0, 35) + '...' : url}
                 </div>
             </Link>
             {!shared && <div className="flex items-center gap-2">

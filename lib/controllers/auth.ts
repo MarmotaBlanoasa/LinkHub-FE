@@ -64,7 +64,7 @@ export async function loginUser(formData: FormData) {
             return "Invalid email or password";
         }
         const {jwt} = data;
-        cookies().set({name: "jwt", value: jwt, maxAge: 60 * 60 * 24, path: "/", httpOnly: true});
+        cookies().set({name: "jwt", value: jwt, maxAge: 60 * 58 * 24 * 7, path: "/", httpOnly: true});
     } catch (e) {
         console.error(e);
     }
